@@ -9,5 +9,9 @@
     <PackageReference Include="RabbitMQ.Client" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Polly" Version="7.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RabbitMQ\" />
   </ItemGroup>
 </Project>
