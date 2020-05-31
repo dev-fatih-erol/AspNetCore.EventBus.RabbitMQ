@@ -1,5 +1,3 @@
-[中文README](README-zh.md)
-
 # AspNetCore.EventBus.RabbitMQ
 An EventBus base on Asp.net core 3.1 and RabbitMq. 
 
