@@ -1,5 +1,5 @@
 # AspNetCore.EventBus.RabbitMQ
-An EventBus base on Asp.net core 3.1 and RabbitMq. 
+An EventBus base on Asp.net core 3.1 and RabbitMQ. 
 
 Made by inspiration from [dotnet-architecture/eShopOnContainers](https://github.com/dotnet-architecture/eShopOnContainers), however there are some changes:
 - Replace Autofac with default asp.net core ioc container.
@@ -7,20 +7,20 @@ Made by inspiration from [dotnet-architecture/eShopOnContainers](https://github.
 - Delayed to create rabbitmq channel for event publish.
 - Class name changed.
 
-## Add RabbitMq EventBus
+## Add RabbitMQ EventBus
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     ...
-    services.AddEventBusRabbitMq(ops =>
+    services.AddEventBusRabbitMQ(o =>
     {
-       ops.HostName = "localhost";
-       ops.UserName = "guest";
-       ops.Password = "guest";   
-       ops.QueueName = "event_bus_queue";
-       ops.BrokerName = "event_bus";
-       ops.RetryCount = 5;
+       o.HostName = "localhost";
+       o.UserName = "guest";
+       o.Password = "guest";   
+       o.QueueName = "event_bus_queue";
+       o.BrokerName = "event_bus";
+       o.RetryCount = 5;
     });
 }
 ```
@@ -40,9 +40,9 @@ public void ConfigureServices(IServiceCollection services)
 ## Publish
 
 ```csharp
-public class UserLoginEvent:Event
+public class UserRegisterEvent : Event
 {
-   public string UserName { get; set; }
+   public string Name { get; set; }
 }
 
 public class ValuesController : ControllerBase
@@ -57,7 +57,7 @@ public class ValuesController : ControllerBase
   [HttpGet]
   public ActionResult Get()
   {
-     _eventBus.Publish(new UserLoginEvent() { UserName = "Peppa" });
+     _eventBus.Publish(new UserRegisterEvent() { Name = "Fatih" });
      return Ok();
   }
 }
@@ -66,18 +66,18 @@ public class ValuesController : ControllerBase
 ## Subscribe
 
 ```csharp
-public class UserLoginEventHandler : IEventHandler<UserLoginEvent>
+public class UserRegisterEventHandler : IEventHandler<UserRegisterEvent>
 {
-   private readonly ILogger<UserLoginEventHandler> _logger;
+   private readonly ILogger<UserRegisterEventHandler> _logger;
 
-   public UserLoginEventHandler(ILogger<UserLoginEventHandler> logger)
+   public UserRegisterEventHandler(ILogger<UserRegisterEventHandler> logger)
    {
        _logger = logger;
    }
 
-   public Task Handle(UserLoginEvent @event)
+   public Task Handle(UserRegisterEvent @event)
    {
-       _logger.LogInformation($"Welcome {@event.UserName}!");
+       _logger.LogInformation($"Welcome {@event.Name}!");
        return Task.FromResult(0);
    }
 }
@@ -89,7 +89,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     app.UseMvc();
 
     var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-    eventBus.Subscribe<UserLoginEvent, UserLoginEventHandler>();
+    eventBus.Subscribe<UserRegisterEvent, UserRegisterEventHandler>();
 }
 ```
 
