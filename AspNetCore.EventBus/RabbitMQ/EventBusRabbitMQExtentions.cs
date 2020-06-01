@@ -5,7 +5,7 @@ namespace AspNetCore.EventBus.RabbitMQ
 {
     public static class EventBusRabbitMQExtentions
     {
-        public static void AddEventBusRabbitMq(this IServiceCollection services, Action<EventBusRabbitMQOptions> configureOptions)
+        public static void AddEventBusRabbitMQ(this IServiceCollection services, Action<EventBusRabbitMQOptions> configureOptions)
         {
             var options = new EventBusRabbitMQOptions();
 
