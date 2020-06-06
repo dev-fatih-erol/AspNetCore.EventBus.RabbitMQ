@@ -84,6 +84,13 @@ public class UserRegisterEventHandler : IEventHandler<UserRegisterEvent>
 ```
 
 ```csharp
+public void ConfigureServices(IServiceCollection services)
+{        
+    services.AddTransient<UserRegisterEventHandler>();
+}
+```
+
+```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {        
     app.UseMvc();
