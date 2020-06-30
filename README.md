@@ -54,8 +54,8 @@ public class ValuesController : ControllerBase
      _eventBus = eventBus;
   }
 
-  [HttpGet]
-  public ActionResult Get()
+  [HttpPost]
+  public ActionResult Post()
   {
      _eventBus.Publish(new UserRegisterEvent() { Name = "Fatih" });
      return Ok();
